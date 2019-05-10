@@ -9,22 +9,9 @@ import org.regnant.bean.UserBean;
 import org.regnant.dao.OrderDAO;
 import org.regnant.dao.UserDAO;
 
-public class OrderService 
-{
-//	public static List<CheckOutBean> OrderServicebaseon_id(LoginBean lb) throws ClassNotFoundException, SQLException 
-//	{
-//		return OrderDAO.getOrderHistory(lb.getEmail());
-//	}
-//	
-	
-	
-	
-	
-	
-	
-	public static void OrderHistoryService(OrderHistoryBean ob) throws ClassNotFoundException, SQLException 
-	{
-		 OrderDAO.placeOrder(ob.getOrder_id(), ob.getUser_id(),ob.getTotal_amount(),ob.getStart_date(),ob.getDelivery_date(),ob.getProducts());
+public class OrderService {
+
+	public static void OrderHistoryService(OrderHistoryBean ob) throws ClassNotFoundException, SQLException {
+		OrderDAO.placeOrder(ob);
 	}
 }
-

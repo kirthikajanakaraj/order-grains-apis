@@ -27,6 +27,7 @@ public class OrderController {
 	public void getorderhistory(OrderHistoryBean user,@Context HttpServletRequest request)throws ClassNotFoundException, SQLException {
 		//HttpSession session = request.getSession();
 		//session.setAttribute(user.getEmail(), user);
+		System.out.println("user--->"+ user);
 		OrderService.OrderHistoryService(user);
 	}
 }

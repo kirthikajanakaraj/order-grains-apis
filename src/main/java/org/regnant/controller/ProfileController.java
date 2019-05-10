@@ -23,11 +23,11 @@ public class ProfileController
 {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public ProfileBean Logincredentials( @Context HttpServletRequest request)
+	public ProfileBean Logincredentials( String email, @Context HttpServletRequest request)
 			throws ClassNotFoundException, SQLException {
 		constants constobject=new constants();
 		HttpSession session = request.getSession();
-		String email=(String) session.getAttribute(constobject.EMAIL);
+		String email1=(String) session.getAttribute(constobject.EMAIL);
 		System.out.println("EMAIL------>"+email);
 		ProfileBean pb=	ProfileService.getuserdetails("ponkypandi@gmail.com");
 		System.out.println(pb.getUsername());

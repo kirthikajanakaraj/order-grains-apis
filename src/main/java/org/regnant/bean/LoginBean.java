@@ -6,7 +6,6 @@ public class LoginBean
 	private String password;
 	public LoginBean(String email, String password)
 	{
-	
 		this.email = email;
 		this.password = password;
 	}

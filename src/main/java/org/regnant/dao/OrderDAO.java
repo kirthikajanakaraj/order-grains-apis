@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,50 +16,33 @@ import org.regnant.bean.OrderHistoryBean;
 import org.regnant.bean.ProductBean;
 
 public class OrderDAO {
-//	public static List<CheckOutBean> getOrderHistory(String email) throws ClassNotFoundException, SQLException {
-//
-//		List<CheckOutBean> bean = new ArrayList<>();
-//
-//		Connection con = ProductDAO.getConnection();
-//		PreparedStatement stmt = con.prepareStatement(
-//				"select productid, productquantity, picname, price from ordergrains.orderhistory where emailid = ?;");
-//		stmt.setString(1, email);
-//		ResultSet rs = stmt.executeQuery();
-//		while (rs.next()) {
-//			String productname = rs.getString(1);
-//			String productquantity = rs.getString(2);
-//			String productImg = rs.getString(3);
-//			String price = rs.getString(4);
-//			CheckOutBean grains = new CheckOutBean(productname, productquantity, productImg, price);
-//			bean.add(grains);
-//		}
-//		return bean;
-//	}
 
-	public static void placeOrder(String order_id, String user_id, String total_amount, String start_date,
-			String delivery_date, String[] products) throws ClassNotFoundException, SQLException {
+	public static void placeOrder(OrderHistoryBean ob) throws ClassNotFoundException, SQLException {
 
 		Connection con = ProductDAO.getConnection();
-		String sqlquery = "INSERT INTO ordergrains.ordertable(user_id, order_id, total_amount, start_date, delivery_date)VALUES('"
-				+ order_id + "', '" + user_id + "','" + total_amount + "''" + start_date + "''" + delivery_date + "');";
-		PreparedStatement pstmt = con.prepareStatement(sqlquery);
+
+
+		String order_id = ob.getOrder_id();
+		String user_id = ob.getUser_id();
+		String total_amount = ob.getTotal_amount();
+		String delivery_date = ob.getDelivery_date();
+
+		String sql = "INSERT INTO ordergrains.ordertable(user_id,order_id,total_amount,delivary_date,start_date)VALUES(?,?,?,?,"+"localtimestamp"+");";
+
+		PreparedStatement pstmt = con.prepareStatement(sql);
+
+		pstmt.setString(1, order_id);
+		pstmt.setString(2, user_id);
+		pstmt.setString(3, total_amount);
+		pstmt.setString(4, delivery_date);
 		pstmt.executeUpdate();
 
-		for (int i = 0; i < products.length; i++) {
-			String sqlquery1 = "INSERT INTO ordergrains.orderproductstable(order_id, product_id)VALUES('" + order_id
-					+ "', '" + products[i] + "');";
-			PreparedStatement stmt= con.prepareStatement(sqlquery1);
+		for (int i = 0; i < ob.getProducts().length; i++) {
+			String sqlquery1 = "INSERT INTO ordergrains.orderproductstable(order_id, product_id)VALUES('"
+					+ ob.getOrder_id() + "', '" + ob.getProducts()[i] + "');";
+			PreparedStatement stmt = con.prepareStatement(sqlquery1);
 			stmt.executeUpdate();
 		}
 	}
 
-//	public static void orderproductstable(String product_id, String order_id)
-//			throws ClassNotFoundException, SQLException {
-//
-//		Connection con = ProductDAO.getConnection();
-//		String sqlquery = "INSERT INTO ordergrains.ordertable VALUES('" + product_id + "','" + order_id + "','" + "');";
-//		PreparedStatement pstmt = con.prepareStatement(sqlquery);
-//		pstmt.executeUpdate();
-//
-//	}
 }
